@@ -1,0 +1,275 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.left-panel {
+    width: 20%;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-right: 1px solid #e8e8e8;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #999;
+}
+
+.chat-list {
+    list-style: none;
+    max-height: 100%;
+    overflow-y: scroll;
+}
+
+.chat-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    cursor: pointer;
+    border: 1px solid #999;
+    border-radius: 5px;
+}
+
+.chat-list li.active {
+    background-color: #e8e8e8;
+}
+
+.add-button {
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+    background-color: #f8f8f8;
+}
+.add-button:hover {
+    color: #106CFF;
+}
+
+.chat-info {
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+.chat-info h3 {
+    margin-left: 5px;
+    margin-bottom: 5px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.time {
+    font-size: 11px;
+    color: #999;
+    align-self: center;
+}
+
+.delete-button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.delete-button:hover svg {
+    fill: #106CFF;
+    stroke: #106CFF;
+}
+
+.right-panel {
+    width: 80%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.right-panel-header {
+    position: relative;
+    padding-left: 30px;
+}
+
+.right-panel-header:before {
+    padding-left: 30px;
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 1px;
+    width: 100%;
+    z-index: -1;
+}
+
+.toggle-button {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    background: url("data:image/svg+xml;utf8,<svg t='1683266489687' class='icon' viewBox='0 0 1024 1024' version='1.1' xmlns='http://www.w3.org/2000/svg' p-id='17744' width='16' height='16'><path d='M0 51.2m38.4 0l947.2 0q38.4 0 38.4 38.4l0 0q0 38.4-38.4 38.4l-947.2 0q-38.4 0-38.4-38.4l0 0q0-38.4 38.4-38.4Z' p-id='17745'></path><path d='M460.8 332.8m38.4 0l486.4 0q38.4 0 38.4 38.4l0 0q0 38.4-38.4 38.4l-486.4 0q-38.4 0-38.4-38.4l0 0q0-38.4 38.4-38.4Z' p-id='17746'></path><path d='M460.8 614.4m38.4 0l486.4 0q38.4 0 38.4 38.4l0 0q0 38.4-38.4 38.4l-486.4 0q-38.4 0-38.4-38.4l0 0q0-38.4 38.4-38.4Z' p-id='17747'></path><path d='M0 896m38.4 0l947.2 0q38.4 0 38.4 38.4l0 0q0 38.4-38.4 38.4l-947.2 0q-38.4 0-38.4-38.4l0 0q0-38.4 38.4-38.4Z' p-id='17748'></path><path d='M20.1984 489.1136l275.5584-137.7792a25.6 25.6 0 0 1 37.0432 22.8864v275.5584a25.6 25.6 0 0 1-37.0432 22.8864L20.1984 534.8864a25.6 25.6 0 0 1 0-45.7728z' p-id='17749'></path></svg>") no-repeat center center;
+    text-align: center;
+    line-height: 20px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.collapsed .left-panel {
+    display: none;
+}
+
+.collapsed .right-panel {
+    width: 100%;
+}
+
+.collapsed .toggle-button {
+    background: url("data:image/svg+xml;utf8,<svg t='1683267001953' class='icon' viewBox='0 0 1024 1024' version='1.1' xmlns='http://www.w3.org/2000/svg' p-id='18011' width='16' height='16'><path d='M985.6 51.2h-947.2a38.4 38.4 0 0 0 0 76.8h947.2a38.4 38.4 0 0 0 0-76.8z m-460.8 281.6h-486.4a38.4 38.4 0 0 0 0 76.8h486.4a38.4 38.4 0 0 0 0-76.8z m0 281.6h-486.4a38.4 38.4 0 0 0 0 76.8h486.4a38.4 38.4 0 0 0 0-76.8z m460.8 281.6h-947.2a38.4 38.4 0 0 0 0 76.8h947.2a38.4 38.4 0 0 0 0-76.8z m18.2016-406.8864l-275.5584-137.7792a25.6 25.6 0 0 0-37.0432 22.8864v275.5584a25.6 25.6 0 0 0 37.0432 22.8864l275.5584-137.7792a25.6 25.6 0 0 0 0-45.7728z' p-id='18012'></path></svg>") no-repeat center center;
+    left: 0;
+}
+
+.chat-area {
+    list-style: none;
+    flex: 1;
+    padding: 20px;
+    overflow-y: scroll;
+}
+
+.chat-area li {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.chat-area li.send {
+    flex-direction: row-reverse;
+}
+
+.chat-area li.received {
+    align-self: flex-end;
+    flex-direction: row;
+}
+
+.avatar {
+    align-self: center;
+}
+
+.avatar img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    align-self: center;
+}
+
+.message {
+    max-width: 70%;
+    padding: 10px 20px;
+    border-radius: 30px;
+    background-color: #f2f2f2;
+    font-size: 14px;
+    align-self: center;
+    margin: 10px;
+}
+
+#conversation-name.editing {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#conversation-name.editing input {
+    margin-bottom: 5px;
+    padding-left: 5px;
+    font-size: inherit;
+}
+
+.edit-button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.edit-button:hover svg {
+    fill: #106CFF;
+    stroke: #106CFF;
+}
+
+.save-button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.save-button:hover svg {
+    fill: #106CFF;
+    stroke: #106CFF;
+}
+
+.cancel-button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.cancel-button:hover svg {
+    fill: #106CFF;
+    stroke: #106CFF;
+}
+
+.clear-button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.clear-button:hover svg {
+    fill: #106CFF;
+    stroke: #106CFF;
+}
+
+.input-area {
+    display: flex;
+    align-items: center;
+}
+
+.input-area textarea {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #999;
+    border-radius: 5px;
+    margin-right: 10px;
+    resize: none;
+    font-size: 14px;
+}
+
+.input-area button {
+    background-color: transparent;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.input-area button svg {
+    fill: #106CFF;
+    stroke: #106CFF;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+}

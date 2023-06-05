@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/chat.css">
+    <link rel="stylesheet" href="/css/github-markdown.min.css">
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.10.0/github-markdown.min.css">-->
+    <link rel="stylesheet" href="/css/default.min.css">
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/default.min.css">-->
+    <title>AI Chat</title>
+</head>
+<body>
+<div class="container">
+    <div class="left-panel">
+        <div class="header">
+            <h2>聊天列表</h2>
+            <form action="/chat/conversation" method="POST">
+            <input type="hidden" name="name" value="新的聊天">
+            <button class="add-button" type="submit">+</button>
+            </form>
+        </div>
+        <ul class="chat-list">
+            {{ range .conversations }}
+            <li class="{{ if eq .ID $.conversation.ID }} active {{ end }}" data-conversationID="{{.ID}}" onclick="selectConversation('{{.ID}}')">
+                <div class="chat-info">
+                    <h3>{{ .Name }}</h3>
+                </div>
+                <div class="time">
+                    <span>{{ .UpdatedAt | formatTime }}</span>
+                </div>
+                <button class="delete-button" onclick="event.stopPropagation()">
+                    <svg t="1683255245168" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="10695" width="16" height="16"><path d="M765.505691 191.942567H639.627772c0-35.32453-28.636201-63.960731-63.96073-63.960731H447.74558c-35.32453 0-63.960731 28.636201-63.96073 63.960731H257.905908c-36.452213 0-66.00325 29.551036-66.00325 66.00325v59.875692c0 36.452213 29.551036 66.00325 66.00325 66.00325h-2.042519v445.681572c0 36.452213 29.551036 66.00325 66.003249 66.00325h379.679346c36.452213 0 66.00325-29.551036 66.00325-66.00325V383.823736h-2.04252c36.452213 0 66.00325-29.551036 66.00325-66.00325v-59.875693c-0.001023-36.452213-29.551036-66.002226-66.004273-66.002226z m-61.918211 611.470479c-0.101307 3.123131-1.743714 27.813462-27.961842 28.134781H347.905688c-27.988448-0.343831-27.969005-28.459169-27.969005-28.459169l-0.112564 0.031722V383.823736h383.763361v419.58931z m31.980365-483.550041H287.843754c-17.662265 0-31.980365-14.3181-31.980365-31.980365 0-17.662265 14.3181-31.980365 31.980365-31.980366H735.568868c17.662265 0 31.980365 14.3181 31.980366 31.980366-0.001023 17.662265-14.319124 31.980365-31.981389 31.980365z" p-id="10696"></path><path d="M447.74558 767.588119c17.662265 0 31.980365-14.3181 31.980366-31.980365V479.764831c0-17.662265-14.3181-31.980365-31.980366-31.980365-17.662265 0-31.980365 14.3181-31.980365 31.980365v255.842923c0 17.662265 14.3181 31.980365 31.980365 31.980365zM575.667042 767.588119c17.662265 0 31.980365-14.3181 31.980365-31.980365V479.764831c0-17.662265-14.3181-31.980365-31.980365-31.980365-17.662265 0-31.980365 14.3181-31.980366 31.980365v255.842923c0 17.662265 14.3181 31.980365 31.980366 31.980365z" p-id="10697"></path></svg>
+                </button>
+            </li>
+            {{ end }}
+        </ul>
+    </div>
+    <div class="right-panel">
+        <div class="header right-panel-header">
+            <div class="toggle-button" onclick="toggleLeftPanel()"></div>
+            <h2>
+                {{ if eq .conversation.ID 0 }}
+                Let's Chat!
+                {{ else }}
+                <span id="conversation-name">{{ .conversation.Name }}</span>
+                <button class="edit-button">
+                    <svg t="1682246662367" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15228" width="20" height="20"><path d="M257.7 752c2 0 4-0.2 6-0.5L431.9 722c2-0.4 3.9-1.3 5.3-2.8l423.9-423.9c3.9-3.9 3.9-10.2 0-14.1L694.9 114.9c-1.9-1.9-4.4-2.9-7.1-2.9s-5.2 1-7.1 2.9L256.8 538.8c-1.5 1.5-2.4 3.3-2.8 5.3l-29.5 168.2c-1.9 11.1 1.5 21.9 9.4 29.8 6.6 6.4 14.9 9.9 23.8 9.9z m67.4-174.4L687.8 215l73.3 73.3-362.7 362.6-88.9 15.7 15.6-89zM880 836H144c-17.7 0-32 14.3-32 32v36c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-36c0-17.7-14.3-32-32-32z" p-id="15229"></path></svg>
+                ️</button>
+                <button type="submit" class="save-button" style="display: none;">
+                    <svg t="1682233518762" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="12237" width="20" height="20"><path d="M426.667 665.003L243.499 481.835a42.667 42.667 0 1 0-60.331 60.33L396.501 755.5a42.667 42.667 0 0 0 60.331 0l426.667-426.667a42.667 42.667 0 1 0-60.331-60.33l-396.501 396.5z" p-id="12238"></path></svg>
+                </button>
+                <button class="cancel-button" style="display: none;">
+                    <svg t="1682099368328" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="16204" width="16" height="16"><path d="M469.333333 451.669333l268.501334-268.501333 60.330666 60.330667L529.664 512l268.501333 268.501333-60.330666 60.330667L469.333333 572.330667l-268.501333 268.501333-60.330667-60.330667L409.002667 512 140.501333 243.498667l60.330667-60.330667z" p-id="16205"></path></svg>
+                </button>
+                {{ end }}
+            </h2>
+            <button class="clear-button">
+                <svg t="1682093975330" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="13293" width="20" height="20"><path d="M883.2 403.2l-147.2-44.8 57.6-224c0-6.4 0-19.2-6.4-25.6-6.4-6.4-12.8-12.8-19.2-12.8L627.2 57.6c-6.4 0-19.2 0-25.6 0C595.2 70.4 588.8 76.8 588.8 83.2L524.8 300.8 358.4 256c-6.4 0-19.2 0-25.6 0S320 275.2 320 281.6l-89.6 320C211.2 684.8 128 768 128 768c-6.4 6.4-12.8 19.2-6.4 32 0 12.8 12.8 19.2 25.6 25.6l524.8 140.8c0 0 6.4 0 6.4 0 6.4 0 19.2-6.4 25.6-12.8 6.4-6.4 83.2-89.6 115.2-179.2 32-83.2 89.6-326.4 89.6-332.8C908.8 422.4 896 409.6 883.2 403.2zM755.2 748.8c-25.6 57.6-70.4 115.2-89.6 147.2l-70.4-19.2c32-38.4 70.4-96 89.6-160 6.4-19.2-6.4-32-25.6-38.4-19.2-6.4-32 6.4-38.4 25.6-19.2 70.4-76.8 134.4-96 153.6l-57.6-12.8c32-38.4 70.4-96 83.2-153.6 6.4-19.2-6.4-32-25.6-38.4-19.2-6.4-32 6.4-38.4 25.6-19.2 64-70.4 128-89.6 153.6l-64-19.2c32-38.4 70.4-96 89.6-153.6 6.4-19.2-6.4-32-25.6-38.4C384 608 364.8 620.8 364.8 633.6c-19.2 64-70.4 128-96 153.6l-57.6-19.2c32-38.4 70.4-96 83.2-153.6l76.8-294.4 166.4 44.8c6.4 0 19.2 0 25.6 0C569.6 364.8 576 358.4 582.4 352L640 128l83.2 19.2-57.6 224c-6.4 19.2 6.4 32 19.2 38.4L832 454.4C819.2 524.8 780.8 691.2 755.2 748.8z" p-id="13294"></path><path d="M364.8 473.6C364.8 492.8 371.2 505.6 390.4 512l339.2 96c0 0 6.4 0 6.4 0 12.8 0 25.6-6.4 32-25.6 6.4-19.2-6.4-32-19.2-38.4L409.6 448C390.4 448 371.2 454.4 364.8 473.6z" p-id="13295"></path></svg>
+            </button>
+        </div>
+        <ul class="chat-area">
+            {{ range .conversation.Messages }}
+            <li class='{{ if eq .UserID 0 }} received {{ else }} send {{end}}'>
+                <div class="avatar">
+                    {{ if eq .UserID 0 }}
+                    <img src="/img/ai-chat.png" alt="">
+                    {{ else }}
+                    <img src="/img/github.svg" alt="">
+                    {{ end }}
+                </div>
+                <div class="message"><div class="markdown-body">{{ .Content }}</div></div>
+                <div class="time">
+                    <span>{{ .CreatedAt | formatTime }}</span>
+                </div>
+            </li>
+            {{end}}
+        </ul>
+        <div class="input-area">
+            <textarea placeholder="说点啥吧..." name="content"></textarea>
+            <button class="input-area-button">
+                <svg t="1682098069051" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="46437" width="48" height="48"><path d="M0 524.8l281.6 166.4 582.4-531.2L384 704l384 128 256-832zM384 985.6L512 832l-128-64z" fill="#106CFF" p-id="46438"></path></svg>
+            </button>
+        </div>
+    </div>
+</div>
+<script src="/js/chat.js"></script>
+<script src="/js/marked.min.js"></script>
+<!--<script src="https://cdn.bootcdn.net/ajax/libs/marked/4.3.0/marked.min.js"></script>-->
+<script src="/js/highlight.min.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>-->
+<script>
+    window.onload = function () {
+        const elements = document.getElementsByClassName('markdown-body');
+        for (let i = 0; i < elements.length; i++) {
+            const element = elements[i];
+            element.innerHTML = marked.parse(element.textContent);
+        }
+        document.querySelectorAll('pre code').forEach(function(block) {
+            hljs.highlightBlock(block);
+        });
+    }
+</script>
+</body>
+</html>
